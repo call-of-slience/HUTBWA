@@ -1,0 +1,69 @@
+exercise 4:
+这一道练习题主要以C语言的指针为主，以下是本次实验所要学的代码：
+#include <stdio.h>
+#include <stdlib.h>
+
+void
+f(void)
+{
+    int a[4];
+    int *b = malloc(16);
+    int *c;
+    int i;
+
+    printf("1: a = %p, b = %p, c = %p\n", a, b, c);
+
+    c = a;
+    for (i = 0; i < 4; i++)
+	a[i] = 100 + i;
+    c[0] = 200;
+    printf("2: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n",
+	   a[0], a[1], a[2], a[3]);
+
+    c[1] = 300;
+    *(c + 2) = 301;
+    3[c] = 302;
+    printf("3: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n",
+	   a[0], a[1], a[2], a[3]);
+
+    c = c + 1;
+    *c = 400;
+    printf("4: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n",
+	   a[0], a[1], a[2], a[3]);
+
+    c = (int *) ((char *) c + 1);
+    *c = 500;
+    printf("5: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n",
+	   a[0], a[1], a[2], a[3]);
+
+    b = (int *) a + 1;
+    c = (int *) ((char *) a + 1);
+    printf("6: a = %p, b = %p, c = %p\n", a, b, c);
+}
+
+int
+main(int ac, char **av)
+{
+    f();
+    return 0;
+}
+在使用玩gcc编译运行后，会得到：
+1: a = 0x7ffc4612d2c0, b = 0x5649a50002a0, c = 0x7ffc4612d2e7
+2: a[0] = 200, a[1] = 101, a[2] = 102, a[3] = 103
+3: a[0] = 200, a[1] = 300, a[2] = 301, a[3] = 302
+4: a[0] = 200, a[1] = 400, a[2] = 301, a[3] = 302
+5: a[0] = 200, a[1] = 128144, a[2] = 256, a[3] = 302
+6: a = 0x7ffc4612d2c0, b = 0x7ffc4612d2c4, c = 0x7ffc4612d2c1
+通过观察代码我们可以发现，因为c = a ，所以c 与a指wuju向同一初始地址，因此在接下来a的值一直与C相同。
+c[1] = 300;
+*(c+2) = 301;
+3[c] = 302;
+这三句是访问数组的三种不同的方式，也在修改a的值。
+c = (int *)((char *)c + 1);
+先是转化为char型，再转换为int型。
+所打印的第5句中a[1],a[2],因此会发生较大的变化。
+
+在Ubuntu中运行objdump -h obj/kern/kernel
+会看到ELF文件的所有段的名字，大小，地址。
+运行objdump -x obj/kern/kernel
+会看到每一个ELF文件中都有一个Program Headers Table，用于指明ELF文件中哪些部分被加载到内存，以及被加载到内存中的地址。
