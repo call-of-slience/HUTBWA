@@ -7,3 +7,46 @@ lab2主要讲了这个内存管理的细节这一方面；
 在完成这些前期准备之后，就可以正式开启lab2了
 首先是第一个练习
 说实话，刚开始的时候，我直接去看这个题目了，然后想动手去写，结果啥也没有，特别痛苦，里面的文件夹是空的，其实是准备工作还没搞好
+你需要回到lab2的源头 https://pdos.csail.mit.edu/6.828/2018/labs/lab2/ 
+这里文章开头很明显有命令行 
+athena% cd ~/6.828/lab
+athena% add git
+athena% git pull
+Already up-to-date.
+athena% git checkout -b lab2 origin/lab2
+Branch lab2 set up to track remote branch refs/remotes/origin/lab2.
+Switched to a new branch "lab2"
+athena% 
+
+你需要把lab2所需要的环境重新克隆下来
+之后就可以进行访问了
+  inc/memlayout.h
+  kern/pmap.c
+  kern/pmap.h
+  kern/kclock.h
+  kern/kclock.c
+这几个文件先大致了解一下他们是干啥的，chat告诉我
+  inc/memlayout.h
+  作用：这个头文件通常定义了内存布局的信息，即内核各部分（比如代码段、数据段、堆栈等）在物理内存中的位置。这对于内核来说是非常重要的，因为它需要知道哪些内存区域是可用的，哪些是被占用的。
+  内容：可能包含一些宏定义，用于表示内核代码、数据、用户空间等区域的起始和结束地址。
+  kern/pmap.c
+  作用：这个C源文件实现了物理内存管理（Physical Memory Management）的功能，比如虚拟内存到物理内存的映射（page mapping），内存保护等。
+  内容：可能包含实现页表管理、地址空间切换、内存分配和回收等功能的代码。
+  kern/pmap.h
+  作用：这个头文件是pmap.c的配套头文件，定义了pmap.c中使用的数据结构、函数原型等。
+  内容：可能包含页表项的结构定义、pmap模块对外提供的接口声明等。
+  kern/kclock.h
+  作用：这个头文件定义了与内核时钟（Kernel Clock）相关的接口和数据结构。内核时钟通常用于系统计时、调度延迟计算等。
+  内容：可能包含时间戳类型定义、获取当前时间或延迟执行的函数原型等。
+  kern/kclock.c
+  作用：这个C源文件实现了内核时钟的功能，比如获取当前时间、实现延迟执行等。
+  内容：可能包含与硬件时钟交互的代码、实现延迟循环或定时器的代码等。
+
+这些了解个大概就行了，知道这些代码是干嘛的；
+那个 周小伦 的lab2解释我看不懂，然后我就去另外找了一篇文章 https://github.com/jacksonwuu/MIT-6.828-zh/blob/main/Lab%202%3A%20Memory%20Management.md
+练习1：他说的是让咱们在kern/mmap.c 中执行操作；
+但是你使用cd mmap.c 命令进入的时候它会提示你没有这样的文件，我当时想着后面换了个vim mmap.c 命令进去发现是空的，我犹豫了但其实他就是让你在这个文件里面进行编辑，
+敲代码进去，然后按照他的来，代码看不懂没关系用ai 让ai给你解释，先写出来再说，按照他给的，尽量自己去敲代码，实在干不动了你就ctrl + c吧；
+搞完这几个函数之后，需要去调试，启动 make qemu 和 make gdb 在gdb里面进行调试 check_page_alloc()
+
+  
